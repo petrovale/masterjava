@@ -51,14 +51,14 @@ public class MatrixUtil {
         {
             int sum = 0;
             for (int i = 0; i < sumLength; ++i)
-                sum += matrixA[row][i] * matrixB[i][col];
+                sum += matrixA[row][i] * matrixB[col][i];
             matrixC[row][col] = sum;
         }
 
         @Override
         public int[][] call() throws Exception {
-
             final int colCount = matrixB[0].length;  // Число столбцов результирующей матрицы.
+
             for (int index = firstIndex; index < lastIndex; ++index)
                 calcValue(index / colCount, index % colCount);
 
@@ -75,13 +75,20 @@ public class MatrixUtil {
         final int cellsForThread = (matrixSize*matrixSize) / threadCount;  // Число вычисляемых ячеек на поток.
         int firstIndex = 0; // Индекс первой вычисляемой ячейки.
 
+        int BT[][] = new int[matrixSize][matrixSize];
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                BT[j][i] = matrixB[i][j];
+            }
+        }
+
         List<Callable<Integer>> tasks = new ArrayList<>();
 
         // Создание и запуск потоков.
         for (int threadIndex = threadCount - 1; threadIndex >=0; --threadIndex) {
             int lastIndex = firstIndex + cellsForThread;  // Индекс последней вычисляемой ячейки.
 
-            tasks.add(new MultiplierThread(matrixA, matrixB, matrixC, firstIndex, lastIndex));
+            tasks.add(new MultiplierThread(matrixA, BT, matrixC, firstIndex, lastIndex));
             firstIndex = lastIndex;
         }
 
