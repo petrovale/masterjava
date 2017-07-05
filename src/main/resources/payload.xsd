@@ -7,6 +7,20 @@
     <xs:element name="Payload">
         <xs:complexType>
             <xs:all>
+                <xs:element name="Projects">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                            <xs:element ref="Project"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Groups">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                            <xs:element ref="Group"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="Cities">
                     <xs:complexType>
                         <xs:sequence minOccurs="1" maxOccurs="unbounded">
@@ -28,11 +42,12 @@
     <xs:element name="User">
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="xs:string" name="email"/>
                 <xs:element type="xs:string" name="fullName"/>
+                <xs:element ref="groups" minOccurs="0" maxOccurs="1"/>
             </xs:sequence>
             <xs:attribute type="flagType" name="flag" use="required"/>
             <xs:attribute type="xs:IDREF" name="city" use="required"/>
+            <xs:attribute type="xs:string" name="email" use="required"/>
         </xs:complexType>
     </xs:element>
 
@@ -53,4 +68,46 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
+
+    <xs:element name="Project" type="projectType"/>
+    <xs:element name="Group" type="groupType"/>
+
+    <xs:complexType name="projectType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="description"/>
+            <xs:element ref="groups" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="groupType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:ID" name="name" use="required"/>
+                <xs:attribute type="flagGroup" name="type" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="flagGroup">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="REGISTERING"/>
+            <xs:enumeration value="CURRENT"/>
+            <xs:enumeration value="FINISHED"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="groups">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="group" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="group">
+        <xs:complexType>
+            <xs:attribute type="xs:IDREF" name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>
