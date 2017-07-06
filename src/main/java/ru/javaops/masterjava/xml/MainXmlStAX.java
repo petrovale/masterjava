@@ -17,7 +17,7 @@ public class MainXmlStAX {
         this.project = project;
     }
 
-    public void getProjectUsers(XMLStreamReader reader) throws XMLStreamException {
+    public void getProjectWithUsers(XMLStreamReader reader) throws XMLStreamException {
         List<User> users = new ArrayList<>();
         List<Project> projects = new ArrayList<>();
 

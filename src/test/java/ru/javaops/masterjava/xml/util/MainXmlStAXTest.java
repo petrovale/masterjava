@@ -15,7 +15,7 @@ public class MainXmlStAXTest {
             XMLStreamReader reader = processor.getReader();
 
             MainXmlStAX mainXmlStAX = new MainXmlStAX("masterjava");
-            mainXmlStAX.getProjectUsers(reader);
+            mainXmlStAX.getProjectWithUsers(reader);
         }
     }
 }
