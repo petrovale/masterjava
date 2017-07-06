@@ -16,6 +16,9 @@
         </User>
         <User flag="deleted" city="spb" email="mail@yandex.ru">
             <fullName>Deleted</fullName>
+            <groups>
+                <group name="masterjava01"/>
+            </groups>
         </User>
     </Users>
     <Cities>
