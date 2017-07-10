@@ -11,10 +11,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>export</artifactId>
+    <artifactId>mail-api</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>Export</name>
+    <packaging>jar</packaging>
+    <name>Mail-api</name>
 
     <dependencies>
         <dependency>
@@ -22,10 +22,6 @@
             <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.j2html</groupId>
-            <artifactId>j2html</artifactId>
-            <version>RELEASE</version>
-        </dependency>
     </dependencies>
+
 </project>
