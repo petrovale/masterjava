@@ -1,6 +1,8 @@
 package ru.javaops.masterjava.export;
 
 import org.thymeleaf.context.WebContext;
+import ru.javaops.masterjava.persist.DBIProvider;
+import ru.javaops.masterjava.persist.dao.UserDao;
 import ru.javaops.masterjava.persist.model.User;
 
 import javax.servlet.ServletException;
@@ -31,12 +33,18 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final WebContext webContext = new WebContext(req, resp, req.getServletContext(), req.getLocale());
+        int chunk= Integer.parseInt(req.getParameter("chunk"));
 
         try {
 //            http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
             Part filePart = req.getPart("fileToUpload");
             try (InputStream is = filePart.getInputStream()) {
                 List<User> users = userExport.process(is);
+                UserDao dao = DBIProvider.getDao(UserDao.class);
+
+                DBIProvider.getDBI().useTransaction((conn, status) -> {
+                    dao.insertAllGeneratedId(users, chunk);
+                });
                 webContext.setVariable("users", users);
                 engine.process("result", webContext, resp.getWriter());
             }
