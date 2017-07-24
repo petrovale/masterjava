@@ -7,14 +7,17 @@ import lombok.*;
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class User extends BaseEntity {
     @Column("full_name")
     private @NonNull String fullName;
     private @NonNull String email;
     private @NonNull UserFlag flag;
+    @Column("city_id")
+    private @NonNull Integer cityId;
 
-    public User(Integer id, String fullName, String email, UserFlag flag) {
-        this(fullName, email, flag);
+    public User(Integer id, String fullName, String email, UserFlag flag, Integer cityId) {
+        this(fullName, email, flag, cityId);
         this.id=id;
     }
 }

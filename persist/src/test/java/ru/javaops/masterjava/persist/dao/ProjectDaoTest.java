@@ -8,8 +8,10 @@ import ru.javaops.masterjava.persist.ProjectTestData;
 import ru.javaops.masterjava.persist.model.Project;
 
 import java.util.List;
+import java.util.Map;
 
-import static ru.javaops.masterjava.persist.ProjectTestData.FIST2_PROJECTS;
+import static org.junit.Assert.assertEquals;
+import static ru.javaops.masterjava.persist.ProjectTestData.PROJECTS;
 
 
 public class ProjectDaoTest extends AbstractDaoTest<ProjectDao> {
@@ -18,20 +20,15 @@ public class ProjectDaoTest extends AbstractDaoTest<ProjectDao> {
         super(ProjectDao.class);
     }
 
-    @BeforeClass
-    public static void init() throws Exception {
-        ProjectTestData.init();
-    }
-
     @Before
     public void setUp() throws Exception {
         ProjectTestData.setUp();
     }
 
     @Test
-    public void getWithLimit() {
-        List<Project> projects = dao.getWithLimit(5);
-        projects.forEach(project -> project.setGroups(dao.getGroupsForProject(project.getId())));
-        Assert.assertEquals(FIST2_PROJECTS.toString(), projects.toString());
+    public void getAll() {
+        final Map<String, Project> projects = dao.getAsMap();
+        assertEquals(PROJECTS, projects);
+        System.out.println(projects.values());
     }
 }
