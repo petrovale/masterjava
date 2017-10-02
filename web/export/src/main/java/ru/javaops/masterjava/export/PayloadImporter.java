@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public class PayloadImporter {
+    private final ProjectGroupImporter projectGroupImporter = new ProjectGroupImporter();
     private final CityImporter cityImporter = new CityImporter();
     private final UserImporter userImporter = new UserImporter();
 
@@ -25,7 +26,8 @@ public class PayloadImporter {
 
     public List<PayloadImporter.FailedEmail> process(InputStream is, int chunkSize) throws XMLStreamException {
         final StaxStreamProcessor processor = new StaxStreamProcessor(is);
+        val groups = projectGroupImporter.process(processor);
         val cities = cityImporter.process(processor);
-        return userImporter.process(processor, cities, chunkSize);
+        return userImporter.process(processor, groups, cities, chunkSize);
     }
 }

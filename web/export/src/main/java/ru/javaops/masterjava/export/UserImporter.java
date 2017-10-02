@@ -6,6 +6,7 @@ import ru.javaops.masterjava.export.PayloadImporter.FailedEmail;
 import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.persist.dao.UserDao;
 import ru.javaops.masterjava.persist.model.City;
+import ru.javaops.masterjava.persist.model.Group;
 import ru.javaops.masterjava.persist.model.User;
 import ru.javaops.masterjava.persist.model.UserFlag;
 import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
@@ -31,7 +32,7 @@ public class UserImporter {
     private final ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
     private final UserDao userDao = DBIProvider.getDao(UserDao.class);
 
-    public List<FailedEmail> process(StaxStreamProcessor processor, Map<String, City> cities, int chunkSize) throws XMLStreamException {
+    public List<FailedEmail> process(StaxStreamProcessor processor, Map<String, Group> groups, Map<String, City> cities, int chunkSize) throws XMLStreamException {
         log.info("Start proseccing with chunkSize=" + chunkSize);
 
         return new Callable<List<FailedEmail>>() {
