@@ -14,4 +14,8 @@ import lombok.NoArgsConstructor;
 public class Addressee {
     private String email;
     private String name;
+
+    public Addressee(String email) {
+        this(email, null);
+    }
 }
